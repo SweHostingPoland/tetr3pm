@@ -1,3 +1,5 @@
+import MusicTempo from "https://cdn.jsdelivr.net/npm/music-tempo/+esm";
+
 const shapes = [
     [
         [0,1,0,0],
