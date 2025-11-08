@@ -79,13 +79,13 @@ header{
     display: none;
 }
 
-.scoreEl{
+/* .scoreEl{
     display: none;
 }
 
 .gameDiv{
     display: none;
-}
+} */
 
 #gameEl{
     background-color: #2a2a2a;

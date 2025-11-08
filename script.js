@@ -44,6 +44,11 @@ const githubBtn = document.getElementById("github");
 const githubLink = "https://github.com/Lolo280374/tetrmp3"
 const keybindsBtn = document.getElementById("keybinds");
 
+const sfx_movement = document.getElementById("sfx_movement");
+const sfx_shapePlaced = document.getElementById("sfx_shapePlaced");
+const sfx_lineDelete = document.getElementById("sfx_lineDelete");
+const sfx_gameOver = document.getElementById("sfx_gameOver");
+
 let canvas = document.querySelector("#gameEl");
 let scoreboard = document.querySelector("h2");
 let ctx = canvas.getContext("2d");
@@ -85,10 +90,11 @@ function randomShape(){
     return {shape,x,y,color}
 }
 
-// setInterval(newGameState,500);
-// making the home screen first, then we'll start gameplay. note that "500" corresponds to the game speed.
+let gameInterval = setInterval(newGameState,500);
+let gameOver = false;
 
 function newGameState(){
+    if (gameOver) return;
     checkGrid();
     if(shapeObj == null){
         shapeObj = randomShape();
@@ -114,18 +120,25 @@ function renderShape(){
 function left(){
     if (!collision(shapeObj.x-1,shapeObj.y))
         shapeObj.x-=1;
+        sfx_movement.currentTime = 0;
+        sfx_movement.play();
     renderGrid();
 }
 
 function right(){
     if (!collision(shapeObj.x+1,shapeObj.y))
         shapeObj.x+=1;
+        sfx_movement.currentTime = 0;
+        sfx_movement.play();
     renderGrid();
 }
 
 function rotate(){
     let rotatedShape = [];
     let shape = shapeObj.shape;
+
+    sfx_movement.currentTime = 0;
+    sfx_movement.play();
 
     for (let i=0;i<shape.length;i++){
         rotatedShape.push([]);
@@ -182,7 +195,15 @@ function gravity(){
                 }
             }
         }
+
+        sfx_shapePlaced.currentTime = 0;
+        sfx_shapePlaced.play();
+
         if (shapeObj.y == 0){
+            gameOver = true;
+            clearInterval(gameInterval);
+            sfx_gameOver.currentTime = 0;
+            sfx_gameOver.play();
             alert("game over...");
             score = 0;
             window.location.href = "https://tetr.lolodotzip.tech/";
@@ -225,6 +246,8 @@ function checkGrid(){
             grid.splice(i,1);
             grid.unshift([0,0,0,0,0,0,0,0,0,0]);
             count++;
+            sfx_lineDelete.currentTime = 0;
+            sfx_lineDelete.play();
         }
     }
 
@@ -260,6 +283,8 @@ function renderGrid(){
 document.addEventListener("keydown", function(e) {
     let key = e.code;
     if(key == "ArrowDown"){
+        sfx_movement.currentTime = 0;
+        sfx_movement.play();
         gravity();
     } else if (key == "ArrowLeft"){
         left();
