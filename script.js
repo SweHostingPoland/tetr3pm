@@ -182,9 +182,10 @@ function gravity(){
             }
         }
         if (shapeObj.y == 0){
-            alert("game over...")
-            grid = generateGrid();
+            alert("game over...");
             score = 0;
+            window.location.href = "https://tetr.lolodotzip.tech/";
+            return;
         }
         shapeObj = null;
     }
