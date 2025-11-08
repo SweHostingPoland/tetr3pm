@@ -40,6 +40,10 @@ const colors = ["#2a2a2a", "#9b5fe0", "#16a4d8", "#60dbe8", "#8bd346", "#efdf48"
 const rows = 20;
 const cols = 10;
 
+const githubBtn = document.getElementById("github");
+const githubLink = "https://github.com/Lolo280374/tetrmp3"
+const keybindsBtn = document.getElementById("keybinds");
+
 let canvas = document.querySelector("#gameEl");
 let scoreboard = document.querySelector("h2");
 let ctx = canvas.getContext("2d");
@@ -48,6 +52,29 @@ ctx.scale(30,30);
 let shapeObj = null;
 let grid = generateGrid();
 let score = 0;
+
+lucide.createIcons();
+
+if (githubBtn){
+    githubBtn.addEventListener("click", (e) => {
+        githubBtn.blur();
+        window.open(githubLink, "_blank", "noopener");
+    });
+}
+
+if (keybindsBtn){
+    keybindsBtn.addEventListener("click", (e) => {
+        keybindsBtn.blur();
+        alert(
+            "keybinds for the game:\n" +
+            "left/right/down arrows - moves the active shape\n" +
+            "up arrow - rotates the active shape\n" +
+            "spacebar - instantly slam the active shape to the bottom, and go to the next shape\n" +
+            "i'll add more later ig"
+        );
+        canvas.focus();
+    });
+}
 
 function randomShape(){
     let random = Math.floor(Math.random()*7);
