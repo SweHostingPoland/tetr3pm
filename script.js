@@ -236,7 +236,7 @@ function checkGrid(){
     } else if(count>3){
         score+=100;
     }
-    scoreboard.innerHTML = "current score: " + score;
+    scoreboard.innerHTML = "current score: " + score + " pts";
 }
 
 function renderGrid(){
