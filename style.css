@@ -35,7 +35,73 @@ body{
     align-items: center;
 }
 
+header{
+    text-align: center;
+    padding: 2rem 1rem;
+    background-color: #0d0d0d;
+    width: 50%;
+    margin: 1rem auto;
+    border-radius: 6px;
+    border: 3px solid #2a2a2a;
+}
+
+.mainselect{
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.mainButton{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #0d0d0d;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    border-radius: 6px;
+    border: 3px solid #2a2a2a;
+}
+
+.demo-icon,
+.upload-icon{
+    width: 150px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.demo-icon:hover,
+.upload-icon:hover{
+    transform: scale(1.1);
+}
+
+#fileInput{
+    display: none;
+}
+
+.scoreEl{
+    display: none;
+}
+
+.gameDiv{
+    display: none;
+}
+
 #gameEl{
     background-color: #2a2a2a;
     box-shadow: 0 0 10px 0 #2a2a2a;
+}
+
+footer .footer-bottom{
+    text-align: center;
+    padding: 1rem;
+    background-color: #0d0d0d;
+    margin: 1rem auto;
+    width: fit-content;
+    border-radius: 15px;
+    border: 3px solid #2a2a2a;
+}
+
+footer .footer-bottom a{
+    color: inherit;
 }

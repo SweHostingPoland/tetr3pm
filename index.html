@@ -12,10 +12,42 @@
         <button id="github"><i data-lucide="github"></i></button>
         <button id="keybinds"><i data-lucide="keyboard"></i></button>
     </div>
-    <h2>current score: 0 pts</h2>
-    <canvas id="gameEl" height="600" width="300">
+    <header>
+        <div class="top-header">
+            <h1>TETR.MP3</h1>
+            <p>play tetris, but twist: an audio file of your choice controls the game's speed! (with it's bpm)</p>
+        </div>
+    </header>
+    <main class="mainselect">
+        <div class="mainButton">
+            <p>import your own song, and let's play!</p>
+            <div class="upload">
+                <label for="fileInput">
+                    <img src="upload.png" alt="Upload your own music!" class="upload-icon">
+                </label>
+                <input type="file" id="fileInput" accept=".mp3, .ogg, .wav, .aac, .m4a, .flac">
+            </div>
+        </div>
+        <div class="mainButton">
+            <p>click here to get a demo song to try the game now!</p>
+            <div class="demo">
+                <img src="demo.png" alt="Use a demo file and play now!" class="demo-icon" id="demoInput">
+            </div>
+        </div>
+    </main>
+    <div class="scoreEl">
+        <h2>current score: 0 pts</h2>
+    </div>
+    <div class="gameDiv">
+        <canvas id="gameEl" height="600" width="300">
         
     </canvas>
+    </div>
+    <footer>
+        <div class="footer-bottom">
+            <p>made by lolodotzip - fully on <a href="https://github.com/Lolo280374/tetrmp3">github!</a> - enjoy!!</p>
+        </div>
+    </footer>
 </body>
 <script src="https://unpkg.com/lucide@latest"></script>
 <script src="script.js"></script>

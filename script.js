@@ -85,7 +85,8 @@ function randomShape(){
     return {shape,x,y,color}
 }
 
-setInterval(newGameState,500);
+// setInterval(newGameState,500);
+// making the home screen first, then we'll start gameplay. note that "500" corresponds to the game speed.
 
 function newGameState(){
     checkGrid();
