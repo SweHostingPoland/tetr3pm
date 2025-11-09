@@ -81,11 +81,10 @@ if (keybindsBtn){
     keybindsBtn.addEventListener("click", (e) => {
         keybindsBtn.blur();
         alert(
-            "keybinds for the game:\n" +
-            "left/right/down arrows - moves the active shape\n" +
-            "up arrow - rotates the active shape\n" +
-            "spacebar - instantly slam the active shape to the bottom, and go to the next shape\n" +
-            "i'll add more later ig"
+            "Keybinds for the game:\n" +
+            "Left/right/down arrows - Moves the active shape.\n" +
+            "Up arrow - Rotates the active shape.\n" +
+            "Spacebar - Instantly slam the active shape to the bottom, and go to the next shape."
         );
         canvas.focus();
     });
@@ -110,7 +109,7 @@ if (fileInput){
         if (importedFile){
             const extension = importedFile.name.split(".").pop().toLowerCase();
             if (!['mp3', 'ogg', 'wav', 'aac', 'm4a', 'flac'].includes(extension)){
-                alert("imported file's extension may not be compatible. audio playback is not assured!");
+                alert("Imported file's extension appears to not be compatible. Audio playback is not assured!");
             }
             const fileURL = URL.createObjectURL(importedFile);
             startAfterImport(fileURL);
@@ -210,7 +209,7 @@ function startwithBPM(songPath, bpm, audioBuffer){
                     }
                 }
             } catch (err) {
-                console.error("an error has occured during the BPM analysis. the song might be corrupted?");
+                console.error("An error has occured during the BPM analysis. Please check if this song is corrupted.");
             }
         }
     }, 3000);
@@ -346,7 +345,7 @@ function gravity(){
             clearInterval(gameInterval);
             sfx_gameOver.currentTime = 0;
             sfx_gameOver.play();
-            alert("game over... (the next shape was going to be too big for the remaining space)");
+            alert("Game over... (The next shape was going to be too big for the remaining space)");
             score = 0;
             window.location.href = "https://tetr.lolodotzip.tech/";
             return;
