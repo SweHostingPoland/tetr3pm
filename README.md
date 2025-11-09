@@ -37,17 +37,17 @@ in the end, this week, i'm actually happy of what i did, yay. and the UI is quit
 
 ## supported file formats
 the following file formats are supported when it comes to importing audio files. note that technically, you can import any format, but compatibility isn't guaranteed!
-<li> Vorbis (OGG)
-<li> Waveform Audio (WAV)
-<li> Free Lossless Audio Codec (FLAC)
-<li> Advanced Audio Coding (AAC)
-<li> MP3/MPEG-1 or 2 Audio Layers (MP3)
-<li> Apple/MPEG-4 Audio (M4A)
+* Vorbis (OGG)
+* Waveform Audio (WAV)
+* Free Lossless Audio Codec (FLAC)
+* Advanced Audio Coding (AAC)
+* MP3/MPEG-1 or 2 Audio Layers (MP3)
+* Apple/MPEG-4 Audio (M4A)
 
 ## how is BPM calculated
 BPM calculation is not magic. it's math. i suck at maths, but that's all right. (also this implementation is truely not perfect, but it does the job...)
 
-<br>to calculate the BPM, we use a library called MusicTempo. that library is avalaible on NPM, and it honestly simplifies our lives heavily. so we grab the music, put it thru musicTempo, which will give us the BPM of the song, and then yea!
+to calculate the BPM, we use a library called MusicTempo. that library is avalaible on NPM, and it honestly simplifies our lives heavily. so we grab the music, put it thru musicTempo, which will give us the BPM of the song, and then yea!
 
 then, to convert that BPM onto actual game speed, we just do the math of "60000 / <the bpm>", and that will give us a conversion from "beats per minutes" to "milliseconds per beat", exactly what our code expects, so then we just slam that value into the code and boom, speed changes with the BPM!
 
@@ -56,18 +56,18 @@ i'm no math expert. sorry if that explanation sucks. you can check the code your
 ## keybinds
 the game has rather simple keybinds. if you already played TETR.IO, you'll feel yourself (almost like at home), considering i'm also a TETR.IO player and I decided to reuse the same keybinds.
 
-<li>left/right/down arrows - moves the active shape on the grid
-<li>up arrow - rotates the active shape on the grid
-<li>spacebar - make the active shape instantly reach the bottom, going to the next shape essentially
+* left/right/down arrows - moves the active shape on the grid
+* up arrow - rotates the active shape on the grid
+* spacebar - make the active shape instantly reach the bottom, going to the next shape essentially
 
 ## demo files
 this was a nightmare. i had to find audio files to put in the game for the Siege demo, issue is a lot of the songs nowadays are obviously not copyright-free or royalty-free. i decided to use the following songs...
 
-<li> The Nymphaeum Part V by Angelwing;
+* The Nymphaeum Part V by Angelwing;
 
 why: this is the default MikoPBX hold music, and it gave me memories so i thought hey that'd be funny.
 
-<li> デイドリーム (Daydream) by RINZO and MAHIRU;
+* デイドリーム (Daydream) by RINZO and MAHIRU;
 
 why: i wanted a J-Pop song, but most of them are obviously going thru licensers like Sony, so that was a pain, so i just decided okay let's go with NCS. easy.
 
@@ -87,10 +87,13 @@ this is a community project, and your help is very much appreciated! if you noti
 ## credits
 many thanks to these who without them, the project may have never seen the light of day (or it would just have sucked):
 
-<br> - [Lucide Icons](https://lucide.dev/) - once again, absolutely goated icon pack, just works and super easy to import. love using it.
-<br> - [MusicTempo](https://cdn.jsdelivr.net/npm/music-tempo/+esm) - used for calculating the BPM of each imported song, works pretty well!
-<br> - [the artists that did the demo songs, check home page](https://tetr.lolodotzip.tech/) - well i definitly needed songs for the demo of the game, and thanks for making your stuff copyright-free!!
-<br> - [JSfxr](https://sfxr.me/) - allowed me to make the sound effects by myself! super cool i had never heard of, but thanks!
+- [Lucide Icons](https://lucide.dev/) - once again, absolutely goated icon pack, just works and super easy to import. love using it.
+
+- [MusicTempo](https://cdn.jsdelivr.net/npm/music-tempo/+esm) - used for calculating the BPM of each imported song, works pretty well!
+
+- [the artists that did the demo songs, check home page](https://tetr.lolodotzip.tech/) - well i definitly needed songs for the demo of the game, and thanks for making your stuff copyright-free!!
+
+- [JSfxr](https://sfxr.me/) - allowed me to make the sound effects by myself! super cool i had never heard of, but thanks!
 
 and probably some others I forgotten.. sorry in advance, but thanks for being here!
 
