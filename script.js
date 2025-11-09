@@ -63,6 +63,10 @@ ctx.scale(30,30);
 let shapeObj = null;
 let grid = generateGrid();
 let score = 0;
+let currentBPM = 120;
+let bpmAnalysisInterval = null;
+let currentAudioBuffer = null;
+let displayInterval = null;
 
 lucide.createIcons();
 
@@ -121,15 +125,91 @@ function startAfterImport(songPath){
         gameAudio.currentTime = 0;
     }
 
+    BPMAnalysisandPlay(songPath);
+}
+
+async function BPMAnalysisandPlay(songPath){
+    try {
+        const audioBuffer = await getAudioBuffer(songPath);
+        const audioData = audioBuffer.getChannelData(0);
+        const mt = new MusicTempo(audioData);
+        const bpm = mt.tempo;
+
+        startwithBPM(songPath, bpm, audioBuffer);
+    } catch (err){
+        startwithBPM(songPath, 120, null);
+    }
+}
+
+async function getAudioBuffer(audioPath){
+    const response = await fetch(audioPath);
+    const arrayBuffer = await response.arrayBuffer();
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    return await audioContext.decodeAudioData(arrayBuffer);
+}
+
+function startwithBPM(songPath, bpm, audioBuffer){
+    currentBPM = bpm;
+    currentAudioBuffer = audioBuffer;
+    const interval = 60000 / bpm;
+
     gameAudio = new Audio();
     gameAudio.src = songPath;
     gameAudio.loop = true;
     gameAudio.addEventListener("canplay", () => gameAudio.play().catch(err => console.error("couldn't play the song: ", err)));
     gameAudio.load();
 
+    shapeObj = null;
+    grid = generateGrid();
+    score = 0;
+    gameOver = false;
+    timeElapsed = Date.now();
+
     if (gameInterval) clearInterval(gameInterval);
-    gameInterval = setInterval(newGameState, 500);
+    gameInterval = setInterval(newGameState, interval);
     canvas.focus();
+
+    if (displayInterval) clearInterval(displayInterval);
+    displayInterval = setInterval(() => {
+        if (gameOver) clearInterval(displayInterval);
+        const elapsedMs = Date.now() - timeElapsed;
+        const elapsedSeconds = Math.floor(elapsedMs / 1000);
+        const minutes = Math.floor(elapsedSeconds / 60);
+        const seconds = elapsedSeconds % 60;
+        scoreboard.innerHTML = score + " points — " + Math.round(currentBPM) + " BPM — " + minutes + " mins " + seconds + " secs elapsed";
+    }, 100);
+
+    if (bpmAnalysisInterval) clearInterval(bpmAnalysisInterval);
+    bpmAnalysisInterval = setInterval(async () => {
+        if (gameAudio && !gameOver && currentAudioBuffer) {
+            try {
+                const currentTime = gameAudio.currentTime;
+                if (currentTime < 5) return;
+
+                const sampleRate = currentAudioBuffer.sampleRate;
+                const startSample = Math.floor(currentTime * sampleRate);
+                const chunkSize = sampleRate * 5;
+                const endSample = Math.min(startSample + chunkSize, currentAudioBuffer.length);
+                const audioData = currentAudioBuffer.getChannelData(0);
+                const chunk = audioData.slice(startSample, endSample);
+
+                if (chunk.length > sampleRate * 3){
+                    const mt = new MusicTempo(chunk);
+                    const updatedBPM = mt.tempo;
+
+                    if (Math.abs(updatedBPM - currentBPM) > 5){
+                        currentBPM = updatedBPM;
+                        const updatedInterval = 60000 / updatedBPM;
+
+                        if (gameInterval) clearInterval(gameInterval);
+                        gameInterval = setInterval(newGameState, updatedInterval);
+                    }
+                }
+            } catch (err) {
+                console.error("an error has occured during the BPM analysis. the song might be corrupted?");
+            }
+        }
+    }, 3000);
 }
 
 function randomShape(){
@@ -144,6 +224,7 @@ function randomShape(){
 let gameInterval = null;
 let gameOver = false;
 let gameAudio = null;
+let timeElapsed = 0;
 
 function newGameState(){
     if (gameOver) return;
@@ -156,6 +237,7 @@ function newGameState(){
 }
 
 function renderShape(){
+    if (!shapeObj) return;
     let shape = shapeObj.shape;
     for(let i=0;i<shape.length;i++){
         for (let j=0;j<shape[i].length;j++){
@@ -170,6 +252,7 @@ function renderShape(){
 }
 
 function left(){
+    if (!shapeObj) return;
     if (!collision(shapeObj.x-1,shapeObj.y))
         shapeObj.x-=1;
         sfx_movement.currentTime = 0;
@@ -178,6 +261,7 @@ function left(){
 }
 
 function right(){
+    if (!shapeObj) return;
     if (!collision(shapeObj.x+1,shapeObj.y))
         shapeObj.x+=1;
         sfx_movement.currentTime = 0;
@@ -186,6 +270,7 @@ function right(){
 }
 
 function rotate(){
+    if (!shapeObj) return;
     let rotatedShape = [];
     let shape = shapeObj.shape;
 
@@ -235,6 +320,7 @@ function collision(x, y, rotatedShape){
 }
 
 function gravity(){
+    if (!shapeObj) return;
     if (!collision(shapeObj.x,shapeObj.y+1))
         shapeObj.y+=1;
     else {
@@ -256,7 +342,7 @@ function gravity(){
             clearInterval(gameInterval);
             sfx_gameOver.currentTime = 0;
             sfx_gameOver.play();
-            alert("game over...");
+            alert("game over... (the next shape was going to be too big for the remaining space)");
             score = 0;
             window.location.href = "https://tetr.lolodotzip.tech/";
             return;
@@ -267,6 +353,7 @@ function gravity(){
 }
 
 function skipGravity(){
+    if (!shapeObj) return;
     while (!collision(shapeObj.x, shapeObj.y + 1)){
         shapeObj.y += 1;
     }
@@ -312,7 +399,6 @@ function checkGrid(){
     } else if(count>3){
         score+=100;
     }
-    scoreboard.innerHTML = "current score: " + score + " pts";
 }
 
 function renderGrid(){

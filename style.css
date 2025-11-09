@@ -35,7 +35,7 @@ body{
     align-items: center;
 }
 
-header{
+.header{
     text-align: center;
     padding: 2rem 1rem;
     background-color: #0d0d0d;
