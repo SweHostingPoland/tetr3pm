@@ -45,6 +45,10 @@ const cols = 10;
 const githubBtn = document.getElementById("github");
 const githubLink = "https://github.com/Lolo280374/tetrmp3"
 const keybindsBtn = document.getElementById("keybinds");
+const fileInput = document.getElementById("fileInput");
+const demoInput = document.getElementById("demoInput");
+const scoreElement = document.querySelector(".scoreEl");
+const gameCanvasDiv = document.querySelector(".gameDiv");
 
 const sfx_movement = document.getElementById("sfx_movement");
 const sfx_shapePlaced = document.getElementById("sfx_shapePlaced");
@@ -83,6 +87,51 @@ if (keybindsBtn){
     });
 }
 
+const demoSongsPool = [
+    { path: "https://tetr.lolodotzip.tech/demo/demo_mikopbx.mp3" },
+    { path: "https://tetr.lolodotzip.tech/demo/demo_ncs.mp3" }
+];
+
+if (demoInput){
+    demoInput.addEventListener("click", (e) => {
+        const random = Math.floor(Math.random() * demoSongsPool.length);
+        const selected = demoSongsPool[random];
+        startAfterImport(selected.path);
+    });
+}
+
+if (fileInput){
+    fileInput.addEventListener("change", (e) => {
+        const importedFile = e.target.files[0];
+        if (importedFile){
+            const fileURL = URL.createObjectURL(importedFile);
+            startAfterImport(fileURL);
+        }
+    });
+}
+
+function startAfterImport(songPath){
+    document.querySelector(".mainselect").style.display = "none";
+    document.querySelector("header").style.display = "none";
+    scoreElement.classList.add("show");
+    gameCanvasDiv.classList.add("show");
+
+    if (gameAudio){
+        gameAudio.pause();
+        gameAudio.currentTime = 0;
+    }
+
+    gameAudio = new Audio();
+    gameAudio.src = songPath;
+    gameAudio.loop = true;
+    gameAudio.addEventListener("canplay", () => gameAudio.play().catch(err => console.error("couldn't play the song: ", err)));
+    gameAudio.load();
+
+    if (gameInterval) clearInterval(gameInterval);
+    gameInterval = setInterval(newGameState, 500);
+    canvas.focus();
+}
+
 function randomShape(){
     let random = Math.floor(Math.random()*7);
     let shape = shapes[random];
@@ -92,8 +141,9 @@ function randomShape(){
     return {shape,x,y,color}
 }
 
-let gameInterval = setInterval(newGameState,500);
+let gameInterval = null;
 let gameOver = false;
+let gameAudio = null;
 
 function newGameState(){
     if (gameOver) return;

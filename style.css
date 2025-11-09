@@ -79,13 +79,15 @@ header{
     display: none;
 }
 
-/* .scoreEl{
+.scoreEl,
+.gameDiv{
     display: none;
 }
 
-.gameDiv{
-    display: none;
-} */
+.scoreEl.show,
+.gameDiv.show{
+    display: block;
+}
 
 #gameEl{
     background-color: #2a2a2a;
