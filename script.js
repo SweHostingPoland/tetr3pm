@@ -92,6 +92,8 @@ if (keybindsBtn){
 
 const demoSongsPool = [
     { path: "https://tetr.lolodotzip.tech/demo/demo_mikopbx.mp3" },
+    { path: "https://tetr.lolodotzip.tech/demo/demo_ncs.mp3" },
+    { path: "https://tetr.lolodotzip.tech/demo/demo_mikopbx.mp3" },
     { path: "https://tetr.lolodotzip.tech/demo/demo_ncs.mp3" }
 ];
 
