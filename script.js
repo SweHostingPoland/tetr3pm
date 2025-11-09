@@ -108,6 +108,10 @@ if (fileInput){
     fileInput.addEventListener("change", (e) => {
         const importedFile = e.target.files[0];
         if (importedFile){
+            const extension = importedFile.name.split(".").pop().toLowerCase();
+            if (!['mp3', 'ogg', 'wav', 'aac', 'm4a', 'flac'].includes(extension)){
+                alert("imported file's extension may not be compatible. audio playback is not assured!");
+            }
             const fileURL = URL.createObjectURL(importedFile);
             startAfterImport(fileURL);
         }
